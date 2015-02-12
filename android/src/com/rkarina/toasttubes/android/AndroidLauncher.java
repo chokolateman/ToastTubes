@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.rkarina.toasttubes.main.ToastTubes;
+import com.rkarina.toasttubes.screens.ToastTubes;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
