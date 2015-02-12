@@ -77,7 +77,7 @@ public class GameScreen implements Screen {
 		runTime += delta;
 		gameStage.draw();
 		gameStage.act();
-		gameStage.addAction(Actions.moveBy(-.8f, 0));;
+		gameStage.addAction(Actions.moveBy(-.8f, 0));
 		manager.checkCollisions();
 		
 	}
