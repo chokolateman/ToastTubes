@@ -20,6 +20,7 @@ public class Tube extends Image implements Poolable{
 	protected Animation animation = null;
 	private float stateTime = 0;
 	public boolean visible = true;
+	
 	// Type of tube (1, 2, 3 or 4)
 	public int type;
 	

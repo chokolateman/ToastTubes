@@ -53,6 +53,8 @@ public class GameManager {
 		
 		private int maxX = 275;
 		
+		private boolean move;
+		
 		private int distance = 0;
 		
 		private static float gravity = -9.8f;
@@ -131,14 +133,19 @@ public class GameManager {
 			};
 			
 			final Tube tube = tubePool.obtain();
-			tube.type = 2;
+			String string = "greentube2";
+			String[] res = string.replaceAll("(?<=\\p{L})(?=\\d)", ":").split("(?<=\\d)(?=\\p{L})");
+		    for (String t : res) {
+		        System.out.println(t);
+		    }
+			System.out.print(res);
 			tube.init(250, game.HEIGHT);
 			
 			tubeArray.add(tube);
 			tube.addAction(Actions.moveTo(tube.getX(), game.HEIGHT/2, 2f));
 			
 			gameStage.addActor(tube);
-			System.out.println("Works here");
+			
 		}
 		
 		public void createTubes(){
@@ -211,7 +218,7 @@ public class GameManager {
 				boolean collision = Intersector.overlaps(tube.getRect(), piloe.getRect());
 				
 				if(collision){
-					createTubes();
+					
 					
 				}
 			}

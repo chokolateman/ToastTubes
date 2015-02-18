@@ -101,6 +101,7 @@ public class GameScreen implements Screen {
 		manager = new GameManager(game, this, gameStage);
 		manager.createToast();
 		manager.gameStart = true;
+		
 		// The first tube which automatically 
 		manager.initTube();
 	}
