@@ -13,15 +13,9 @@ import com.rkarina.toasttubes.helpers.TubeData;
 
 public class Tube extends Image implements Poolable{
 	
-	private boolean closest = false;
-	
-	private TubeData tb = new TubeData();
-	
 	protected Animation animation = null;
 	private float stateTime = 0;
 	public boolean visible = true;
-	// Type of tube (1, 2, 3 or 4)
-	public int type;
 	
 	// Has it been stopped?
 	private boolean stopped = false;
@@ -31,20 +25,10 @@ public class Tube extends Image implements Poolable{
 	public Tube(Animation anim){ 
 		
 		super(anim.getKeyFrame(0));
-		
 		animation = anim;
-		
 		visible = true;
-		
 		rectEnt = new Rectangle();
-		
 		rectEnt.setSize(this.getWidth(), this.getHeight());
-	}
-	
-	// For collision detection
-	public Rectangle getRect(){
-		
-		return rectEnt;
 	}
 	
 	@Override 
@@ -53,18 +37,14 @@ public class Tube extends Image implements Poolable{
 		// Animation for the tubes 
 		((TextureRegionDrawable)getDrawable()).setRegion(animation.getKeyFrame(stateTime+delta, true));
 				
-		// Tubes act
+		// Tubes act method
 		super.act(delta);
-		
-		// Moves along the x-axis as the toast does!
-//		if(!stopped){
-//			this.setPosition(this.getX()-1, this.getY()-1);
-//		}
 		
 		// Rectangle needs to follow the tube
 		rectEnt.setPosition(this.getX(), this.getY());
 	}
 	
+	// Initialize the position of the tube
 	public void init(float posX, float posY){
 		this.setPosition(posX, posY);
 		visible = true;
@@ -75,17 +55,18 @@ public class Tube extends Image implements Poolable{
 		this.setPosition(600, 25);
 		this.clearActions();
 		visible = false;
-		
 		rectEnt.setPosition(this.getX(), this.getY());
 		
 	}
 	
-	public void onClick(){
-		// if the user touches the area underneath the tube, then it stops
-		this.stopped = true;
-		this.addAction(Actions.moveTo(this.getX(), this.getY()));
+	// For collision detection
+	public Rectangle getRect(){
+		return rectEnt;
 	}
-	
-	
-	
+		
+	// Stops the tube if it has been tapped
+	public void onClick(){
+		this.stopped = true;
+		this.addAction(Actions.moveBy(0,0));
+	}
 }

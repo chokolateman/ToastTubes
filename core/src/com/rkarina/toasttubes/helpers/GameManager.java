@@ -112,6 +112,7 @@ public class GameManager {
 			gameStage.addActor(toaster);
 		}
 		
+		// Function for the first tube
 		public void initTube(){
 			
 			TextureRegion[] regions = new TextureRegion[1];
@@ -141,7 +142,8 @@ public class GameManager {
 			System.out.println("Works here");
 		}
 		
-		public void createTubes(){
+		// Generates a single green tube from the top, falling down. 
+		public void generateTube(){
 			
 			TextureRegion[] regions = new TextureRegion[1];
 			
@@ -211,7 +213,7 @@ public class GameManager {
 				boolean collision = Intersector.overlaps(tube.getRect(), piloe.getRect());
 				
 				if(collision){
-					createTubes();
+					
 					
 				}
 			}
