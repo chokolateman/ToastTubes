@@ -77,19 +77,20 @@ public class Toast extends Image {
 		//Add piloes movement action to its list of actions.
 		this.addAction(Actions.moveTo(250, 220+this.getWidth()/2, 2f, Interpolation.sine));
 		
+		//Set piloes initial screen position
+		this.setPosition(47, 78);
+		
+		//Create collision box
 		rect = new Rectangle();
+		rect.setSize(this.getWidth(), this.getHeight());
+		
 		//Movement
 		velocity = new Vector2(100,200);
 		acceleration = new Vector2(0, -100);
 		position = new Vector2(47, 78);
+		centre = new Vector2(this.getX()+this.getImageWidth()/2, this.getY()+this.getImageHeight()/2);
 		
-		centre = new Vector2(this.getX()+this.getImageWidth()/2, 
-							this.getY()+this.getImageHeight()/2);
-		
-		rect.setSize(this.getWidth(), this.getHeight());
 		isStarted = true;
-		
-		
 	}
 	
 
