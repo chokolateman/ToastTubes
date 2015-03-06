@@ -1,6 +1,11 @@
 package com.rkarina.toasttubes.gameobjects;
 
+import java.util.Random;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -14,20 +19,17 @@ import com.rkarina.toasttubes.helpers.TubeData;
 public class Tube extends Image implements Poolable{
 	
 	private boolean closest = false;
-	
 	private TubeData tb = new TubeData();
-	
-	protected Animation animation = null;
 	private float stateTime = 0;
+	private boolean stopped = false;// Has it been stopped?
+	private String name;
+	
+	private static Animation animation = null;
+	
 	public boolean visible = true;
-	
-	// Type of tube (1, 2, 3 or 4)
-	public int type;
-	
-	// Has it been stopped?
-	private boolean stopped = false;
-	
+	public int type;// Type of tube (1, 2, 3 or 4)
 	public Rectangle rectEnt, rectEx;
+	
 	
 	public Tube(Animation anim){ 
 		
@@ -40,6 +42,29 @@ public class Tube extends Image implements Poolable{
 		rectEnt = new Rectangle();
 		
 		rectEnt.setSize(this.getWidth(), this.getHeight());
+	}
+	
+	/**
+	 * Creates a tube with animation
+	 * @param int representation of what file group the image is sourced for the tube.
+	 */
+	public Tube(String tubeGroup){
+		super();
+		Random rand = new Random();
+		
+		TextureRegion[] regions = new TextureRegion[1];
+		
+		regions[0] = new TextureRegion(new Texture(Gdx.files.internal(tubeGroup +"/greentube"+(rand.nextInt(2) +1)+".png")));
+		animation = new Animation(.05f, regions);
+		this.setDrawable(new TextureRegionDrawable(animation.getKeyFrame(0)));
+		visible = true;
+		if(this.getDrawable() != null){
+			System.out.println("not drawable");
+		}
+		rectEnt = new Rectangle();
+		
+		rectEnt.setSize(this.getWidth(), this.getHeight());
+		
 	}
 	
 	// For collision detection
