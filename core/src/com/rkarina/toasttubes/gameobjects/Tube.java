@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.rkarina.toasttubes.helpers.GameManager;
@@ -44,30 +45,12 @@ public class Tube extends Image implements Poolable{
 		rectEnt.setSize(this.getWidth(), this.getHeight());
 	}
 	
-	/**
-	 * Creates a tube with animation
-	 * @param int representation of what file group the image is sourced for the tube.
-	 */
-	public Tube(String tubeGroup){
-		super();
-		Random rand = new Random();
-		
-		TextureRegion[] regions = new TextureRegion[1];
-		
-		regions[0] = new TextureRegion(new Texture(Gdx.files.internal(tubeGroup +"/greentube"+(rand.nextInt(2) +1)+".png")));
-		animation = new Animation(.05f, regions);
-		this.setDrawable(new TextureRegionDrawable(animation.getKeyFrame(0)));
-		visible = true;
-		if(this.getDrawable() != null){
-			System.out.println("not drawable");
-		}
-		rectEnt = new Rectangle();
-		
-		rectEnt.setSize(this.getWidth(), this.getHeight());
-		
-	}
 	
-	// For collision detection
+	
+	/**
+	 * Returns the collision box for the tube.
+	 * @return Rectangle
+	 */
 	public Rectangle getRect(){
 		
 		return rectEnt;
