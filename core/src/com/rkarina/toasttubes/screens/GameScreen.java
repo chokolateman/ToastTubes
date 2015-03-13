@@ -78,7 +78,8 @@ public class GameScreen implements Screen {
 		gameStage.draw();
 		gameStage.act();
 		gameStage.addAction(Actions.moveBy(-.8f, 0));
-		manager.checkCollisions();
+		manager.checkPiloeCollisions();
+		System.out.println(gameStage.getActors());
 		
 	}
 
