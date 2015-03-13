@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -26,32 +28,21 @@ import com.rkarina.toasttubes.helpers.GameManager;
 public class Toast extends Image {
 	
 	// Animation
-	protected Animation animation = null;
-	
-	public boolean isStarted = false;
-	
-	GameManager gm = null;
-	
-	// state time variable to change the animation 
-	private float stateTime = 0;
-	
+	private static Animation animation = null;
+	private float stateTime = 0;// state time variable to change the animation 
 	// Physics attributes 
 	private Vector2 position;
 	private Vector2 velocity;
 	private Vector2 acceleration;
-	
 	private Vector2 centre; 
-	
 	private float time;
 	
+	public boolean isStarted = false;
+	public GameManager gm = null;
 	public int initV = -5;
-	
-	Rectangle bottom, left, right, top;
-	
+	public Rectangle bottom, left, right, top;
 	public Rectangle rect;
-	
-	float rotation; // For handling toast rotation 
-	
+	public float rotation; // For handling toast rotation 
 	public boolean launched = false;
 	
 	// Main menu animation constructor 
@@ -66,27 +57,43 @@ public class Toast extends Image {
 		rect.setSize(this.getWidth(), this.getHeight());
 	}
 	
-	// GameScreen constructor 
-	public Toast(GameManager gManager, Animation anim){
+	/**
+	 * Creates Toast object with animation and actions attached.
+	 * 
+	 * 
+	 */
+	public Toast(){
+		super(animation.getKeyFrame(0));
 		
-		super(anim.getKeyFrame(0));
+		TextureRegion[] regions = new TextureRegion[4];
+		// Animation sequence
+		regions[0] = new TextureRegion(new Texture(Gdx.files.internal("sprite/piloe.png")));
+		regions[1] = new TextureRegion(new Texture(Gdx.files.internal("sprite/piloe2.png")));
+		regions[2] = new TextureRegion(new Texture(Gdx.files.internal("sprite/piloe.png")));
+		regions[3] = new TextureRegion(new Texture(Gdx.files.internal("sprite/piloe2.png")));
+		// Add the animation of toast
+		animation = new Animation(0.5f, regions);
 		
-		this.gm = gManager;
+		//Add piloes movement action to its list of actions.
+		this.addAction(Actions.moveTo(250, 220+this.getWidth()/2, 2f, Interpolation.sine));
 		
-		animation = anim;
+		//Set piloes initial screen position
+		this.setPosition(47, 78);
 		
+		//Create collision box
 		rect = new Rectangle();
+		rect.setSize(this.getWidth(), this.getHeight());
 		
+		//Movement
 		velocity = new Vector2(100,200);
 		acceleration = new Vector2(0, -100);
 		position = new Vector2(47, 78);
+		centre = new Vector2(this.getX()+this.getImageWidth()/2, this.getY()+this.getImageHeight()/2);
 		
-		centre = new Vector2(this.getX()+this.getImageWidth()/2, 
-							this.getY()+this.getImageHeight()/2);
-		
-		rect.setSize(this.getWidth(), this.getHeight());
+		isStarted = true;
 	}
 	
+
 	// Game constructor
 	public Toast(float x, float y){
 		position = new Vector2(x, y);
@@ -104,7 +111,7 @@ public class Toast extends Image {
 		super.act(delta);
 		
 		// When game starts, run the code below 
-		if(gm != null && gm.gameStart){
+		if(isStarted){
 			
 			// Projectile motion formulas
 //			double Viyrad = Math.sin(45)*(50);

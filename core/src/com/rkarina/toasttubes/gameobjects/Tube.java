@@ -1,9 +1,15 @@
 package com.rkarina.toasttubes.gameobjects;
 
+import java.util.Random;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.rkarina.toasttubes.helpers.GameManager;
@@ -14,20 +20,17 @@ import com.rkarina.toasttubes.helpers.TubeData;
 public class Tube extends Image implements Poolable{
 	
 	private boolean closest = false;
-	
 	private TubeData tb = new TubeData();
-	
-	protected Animation animation = null;
 	private float stateTime = 0;
+	private boolean stopped = false;// Has it been stopped?
+	private String name;
+	
+	private static Animation animation = null;
+	
 	public boolean visible = true;
-	
-	// Type of tube (1, 2, 3 or 4)
-	public int type;
-	
-	// Has it been stopped?
-	private boolean stopped = false;
-	
+	public int type;// Type of tube (1, 2, 3 or 4)
 	public Rectangle rectEnt, rectEx;
+	
 	
 	public Tube(Animation anim){ 
 		
@@ -42,7 +45,12 @@ public class Tube extends Image implements Poolable{
 		rectEnt.setSize(this.getWidth(), this.getHeight());
 	}
 	
-	// For collision detection
+	
+	
+	/**
+	 * Returns the collision box for the tube.
+	 * @return Rectangle
+	 */
 	public Rectangle getRect(){
 		
 		return rectEnt;
