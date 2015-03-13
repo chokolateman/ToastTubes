@@ -33,6 +33,9 @@ public class GameManager {
 	private final static int WIDTH = 800;
 	private final static int HEIGHT = 480;
 
+	
+
+
 	private static int gap = 250; 
 	private ToastTubes game = null;
 	private Stage gameStage = null;
@@ -84,27 +87,31 @@ public class GameManager {
 		tube.addAction(Actions.moveTo(tube.getX(), HEIGHT/2, 2f));
 		
 		gameStage.addActor(tube);
-		
+		tubeArray.add(tube);
 	}
 	
 	public void createTubes(){
-		
-		TextureRegion[] regions = new TextureRegion[1];
-		
-		regions[0] = new TextureRegion(
-					new Texture(Gdx.files.internal("middle_tubes/greentube"+randInt(1,2)+".png")));
-		
-		final Animation animation = new Animation(.05f, regions);
-		
-		this.tubePool = new Pool<Tube>(){
+		if(tubeArray.size <4){
+			TextureRegion[] regions = new TextureRegion[1];
 			
-			@Override
-			protected Tube newObject(){
-				
-				return new Tube(animation);
-			}
-		};
+			regions[0] = new TextureRegion(
+						new Texture(Gdx.files.internal("middle_tubes/greentube"+randInt(1,2)+".png")));
+			
+			final Animation animation = new Animation(.05f, regions);
+			
+			Tube tube = new Tube(animation);
+			tube.init(gap+(tubeArray.size*gap), HEIGHT);
+			tube.addAction(Actions.moveTo(tube.getX(), 52f, 4f));
+			gameStage.addActor(tube);
+			tubeArray.add(tube);
+		}
 		
+	/*	Timer tubeTimer = new Timer();*/
+		
+	
+		
+		
+		/*
 		Timer.schedule(new Task(){
 		
 			@Override
@@ -140,11 +147,11 @@ public class GameManager {
 			
 		gameStage.addActor(tube);
 		}
-	},1,3);
+	},1,3);*/
 	}
 	
 	// Checks whether two images collide or not
-	public void checkCollisions(){
+	public void checkPiloeCollisions(){
 		
 		Iterator<Tube> it = tubeArray.iterator();
 		
@@ -157,12 +164,15 @@ public class GameManager {
 			boolean collision = Intersector.overlaps(tube.getRect(), piloe.getRect());
 			
 			if(collision){
-				
+				createTubes();
 				
 			}
 		}
 		
 	}
+	
+	
+	
 	
 	
 //		public void bgLoop(){
@@ -187,4 +197,9 @@ public class GameManager {
 
 	    return randomNum;
 	}
+	public static int getHeight() {
+		return HEIGHT;
+	}
+	
 }
+
