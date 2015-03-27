@@ -69,10 +69,10 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void show() {
 		 
-		// Background music
+		/*// Background music
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/bg_music.mp3"));
 		bgMusic.setLooping(true);
-	    bgMusic.play();
+	    bgMusic.play();*/
 	
 	    // Creating main menu stage 
 		mainMenu = new Stage(new ScreenViewport(camera));
