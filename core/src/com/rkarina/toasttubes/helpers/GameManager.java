@@ -1,6 +1,9 @@
 package com.rkarina.toasttubes.helpers;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.EventListener;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,7 +32,7 @@ import com.rkarina.toasttubes.gameobjects.Tube;
 import com.rkarina.toasttubes.screens.GameScreen;
 import com.rkarina.toasttubes.screens.ToastTubes;
 
-public class GameManager {
+public class GameManager implements  com.badlogic.gdx.scenes.scene2d.EventListener{
 	
 	private final static int WIDTH = 800;
 	private final static int HEIGHT = 480;
@@ -41,6 +45,13 @@ public class GameManager {
 	private Stage gameStage = null;
 	private Pool<Tube> tubePool = null;
 	private Array<Tube> tubeArray = new Array<Tube>();
+	public Array<Tube> getTubeArray() {
+		return tubeArray;
+	}
+
+
+
+
 	private GameScreen gameScreen = null;
 	private int posXBck1=0, posXBck2=0;
 	private int maxX = 275;
@@ -70,7 +81,8 @@ public class GameManager {
 	public void createToast(){
 		// Initial position in the game screen
 		piloe = new Toast();
-		gameStage.addActor(piloe);
+		piloe.addListener(this);
+		//gameStage.addActor(piloe);
 	}
 	
 	public void initTube(){
@@ -86,7 +98,7 @@ public class GameManager {
 		
 		tube.addAction(Actions.moveTo(tube.getX(), HEIGHT/2, 2f));
 		
-		gameStage.addActor(tube);
+		//gameStage.addActor(tube);
 		tubeArray.add(tube);
 	}
 	
@@ -199,6 +211,15 @@ public class GameManager {
 	}
 	public static int getHeight() {
 		return HEIGHT;
+	}
+	
+	
+
+
+	@Override
+	public boolean handle(Event event) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 	
 }

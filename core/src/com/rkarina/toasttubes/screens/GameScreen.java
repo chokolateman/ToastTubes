@@ -17,13 +17,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.rkarina.toasttubes.gameobjects.Toast;
+import com.rkarina.toasttubes.gameobjects.Tube;
 import com.rkarina.toasttubes.gameworld.GameRenderer;
 import com.rkarina.toasttubes.gameworld.GameWorld;
 import com.rkarina.toasttubes.helpers.GameManager;
@@ -65,6 +68,12 @@ public class GameScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
+	
+		/**
+		 * Need to decouple the gameStage and put it in GameManager
+		 */
+		
+		
 		
 		// Actors on the show method runs first
 		
@@ -78,6 +87,12 @@ public class GameScreen implements Screen {
 		gameStage.draw();
 		gameStage.act();
 		gameStage.addAction(Actions.moveBy(-.8f, 0));
+		System.out.println(gameStage.getActors());
+		//gameStage.getActors().notify();
+		for (Actor a: gameStage.getActors()){
+			
+			a.fire(new Event());	
+		}
 		manager.checkPiloeCollisions();
 		System.out.println(gameStage.getActors());
 		
@@ -89,6 +104,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
+		manager = new GameManager(game, this, gameStage);
 		Gdx.app.log("GameScreen", "show called");
 		gameStage = new Stage(new StretchViewport (800,480));
 		background1 = new Texture(new Pixmap(Gdx.files.internal("mainmenu/background.jpg")));
@@ -96,15 +112,20 @@ public class GameScreen implements Screen {
 		background2 = new Texture(new Pixmap(Gdx.files.internal("mainmenu/background.jpg")));
 		
 		game_bg = new Image(background1);
-		
+		game_bg.addListener(manager);
 		gameStage.addActor(game_bg);
+		//gameStage.getActors().get( gameStage.getActors().indexOf(game_bg, false)).addListener(manager);
 		
-		manager = new GameManager(game, this, gameStage);
 		manager.createToast();
+		gameStage.addActor(manager.piloe);
 		manager.gameStart = true;
 		
 		// The first tube which automatically 
 		manager.initTube();
+		for(Tube t: manager.getTubeArray()){
+			gameStage.addActor(t);
+		}
+		
 	}
 
 	@Override
